@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Função para mostrar mensagens personalizadas
-msg() {
-  echo -e "\033[1;32m\033[1m$1\033[0m"
-}
-
 # Diretório de destino
 TARGET_DIR="/userdata/system/.dev/scripts/JCGAMESCLASSICOS"
 SUPORTE_DIR="$TARGET_DIR/Suporte"
@@ -15,48 +10,66 @@ OS_FILE="$TARGET_DIR/OS"
 # Criação do diretório se não existir
 if [ ! -d "$TARGET_DIR" ]; then
   mkdir -p "$TARGET_DIR"
-  msg "DIRETÓRIO $TARGET_DIR CRIADO."
+  echo "Diretório $TARGET_DIR criado."
 else
-  msg "DIRETÓRIO $TARGET_DIR JÁ EXISTE."
+  echo "Diretório $TARGET_DIR já existe."
 fi
 
 # Entrar no diretório
-cd "$TARGET_DIR" || { msg "FALHA AO ACESSAR $TARGET_DIR"; exit 1; }
+cd "$TARGET_DIR" || { echo "Falha ao acessar $TARGET_DIR"; exit 1; }
 
 # Baixar o arquivo
-msg "BAIXANDO O ARQUIVO OS..."
-curl -L -o "$OS_FILE" "https://github.com/JeversonDiasSilva/suporte/releases/download/v1.0/OS" > /dev/null 2>&1 &
-msg "ARQUIVO OS BAIXADO COM SUCESSO."
+echo "Baixando o arquivo OS..."
+curl -L -o "$OS_FILE" "https://github.com/JeversonDiasSilva/suporte/releases/download/v1.0/OS"
+if [ $? -ne 0 ]; then
+  echo "Erro ao baixar o arquivo OS."
+  exit 1
+fi
+echo "Arquivo OS baixado com sucesso."
 
 # Descompactar o arquivo
-msg "DESCOMPACTANDO O ARQUIVO..."
-unsquashfs -d "$SUPORTE_DIR" "$OS_FILE" > /dev/null 2>&1 &
-msg "ARQUIVO DESCOMPACTADO COM SUCESSO."
+echo "Descompactando o arquivo..."
+unsquashfs -d "$SUPORTE_DIR" "$OS_FILE"
+if [ $? -ne 0 ]; then
+  echo "Erro ao descompactar o arquivo OS."
+  exit 1
+fi
+echo "Arquivo descompactado com sucesso."
 
 # Definir permissões adequadas (não usar 777)
-msg "AJUSTANDO PERMISSÕES PARA $SUPORTE_DIR..."
-chmod -R 755 "$SUPORTE_DIR" > /dev/null 2>&1 &
-msg "PERMISSÕES AJUSTADAS."
+chmod -R 755 "$SUPORTE_DIR"
+echo "Permissões ajustadas para $SUPORTE_DIR."
 
 # Remover o arquivo original
-msg "REMOVENDO O ARQUIVO OS..."
-rm "$OS_FILE" > /dev/null 2>&1 &
-msg "ARQUIVO OS REMOVIDO."
+rm "$OS_FILE"
+echo "Arquivo OS removido."
 
 # Copiar o arquivo .desktop para o diretório de aplicativos
-msg "COPIANDO O ARQUIVO .DESKTOP PARA $DESKTOP_FILE..."
-cp "$SUPORTE_DIR/Suporte.desktop" "$DESKTOP_FILE" > /dev/null 2>&1 &
-msg "ARQUIVO .DESKTOP COPIADO COM SUCESSO."
+echo "Copiando o arquivo .desktop para $DESKTOP_FILE..."
+cp "$SUPORTE_DIR/Suporte.desktop" "$DESKTOP_FILE"
+if [ $? -ne 0 ]; then
+  echo "Erro ao copiar o arquivo .desktop."
+  exit 1
+fi
+echo "Arquivo .desktop copiado com sucesso."
 
 # Criar o link simbólico
-msg "CRIANDO LINK SIMBÓLICO PARA O DESKTOP..."
-ln -s "$DESKTOP_FILE" "$LINK_DESKTOP_FILE" > /dev/null 2>&1 &
-msg "LINK SIMBÓLICO CRIADO COM SUCESSO."
+echo "Criando link simbólico para o desktop..."
+ln -s "$DESKTOP_FILE" "$LINK_DESKTOP_FILE"
+if [ $? -ne 0 ]; then
+  echo "Erro ao criar o link simbólico."
+  exit 1
+fi
+echo "Link simbólico criado com sucesso."
 
 # Executar o script RUN antes de finalizar
-msg "EXECUTANDO O SCRIPT RUN..."
-/userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/RUN > /dev/null 2>&1 &
-msg "SCRIPT RUN EXECUTADO COM SUCESSO."
+echo "Executando o script RUN..."
+/userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/RUN
+if [ $? -ne 0 ]; then
+  echo "Erro ao executar o script RUN."
+  exit 1
+fi
+echo "Script RUN executado com sucesso."
 
 # Concluir
-msg "INSTALAÇÃO CONCLUÍDA COM SUCESSO!"
+echo "Instalação concluída com sucesso!"
