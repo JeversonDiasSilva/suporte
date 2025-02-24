@@ -62,5 +62,14 @@ if [ $? -ne 0 ]; then
 fi
 echo "Link simbólico criado com sucesso."
 
+# Executar o script RUN antes de finalizar
+echo "Executando o script RUN..."
+/userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/RUN
+if [ $? -ne 0 ]; then
+  echo "Erro ao executar o script RUN."
+  exit 1
+fi
+echo "Script RUN executado com sucesso."
+
 # Concluir
-echo "Script concluído com sucesso!"
+echo "Instalação concluída com sucesso!"
