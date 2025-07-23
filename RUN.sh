@@ -73,3 +73,6 @@ echo "Script RUN executado com sucesso."
 
 # Concluir
 echo "Instalação concluída com sucesso!"
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install flathub com.rustdesk.RustDesk -y
+
+
