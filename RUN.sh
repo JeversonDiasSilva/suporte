@@ -6,6 +6,8 @@ SUPORTE_DIR="$TARGET_DIR/Suporte"
 DESKTOP_FILE="/usr/share/applications/Suporte.desktop"
 LINK_DESKTOP_FILE="/userdata/Suporte.desktop"
 OS_FILE="$TARGET_DIR/OS"
+
+# Adicionar o repositório Flathub e instalar o RustDesk via Flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install flathub com.rustdesk.RustDesk -y
 
 # Criação do diretório se não existir
@@ -37,7 +39,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "Arquivo descompactado com sucesso."
 
-# Definir permissões adequadas (não usar 777)
+# Definir permissões adequadas
 chmod -R 755 "$SUPORTE_DIR"
 echo "Permissões ajustadas para $SUPORTE_DIR."
 
@@ -63,6 +65,14 @@ if [ $? -ne 0 ]; then
 fi
 echo "Link simbólico criado com sucesso."
 
+# Definir a senha permanente no RustDesk para "Batocera2025"
+echo "Configurando a senha permanente no RustDesk..."
+# Esse comando depende de como o RustDesk armazena suas configurações.
+# Uma abordagem pode ser editar diretamente o arquivo de configuração, se existir:
+echo "password=Batocera2025" > /userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/config_file.conf
+# Ou, se for necessário usar um comando específico para definir a senha, insira-o aqui, por exemplo:
+# flatpak run com.rustdesk.RustDesk --set-password Batocera2025
+
 # Executar o script RUN antes de finalizar
 echo "Executando o script RUN..."
 /userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/RUN
@@ -74,5 +84,3 @@ echo "Script RUN executado com sucesso."
 
 # Concluir
 echo "Instalação concluída com sucesso!"
-
-
