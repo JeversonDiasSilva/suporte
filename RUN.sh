@@ -73,14 +73,6 @@ echo "password=Batocera2025" > /userdata/system/.dev/scripts/JCGAMESCLASSICOS/Su
 # Ou, se for necessário usar um comando específico para definir a senha, insira-o aqui, por exemplo:
 # flatpak run com.rustdesk.RustDesk --set-password Batocera2025
 
-# Executar o script RUN antes de finalizar
-echo "Executando o script RUN..."
-/userdata/system/.dev/scripts/JCGAMESCLASSICOS/Suporte/RUN
-if [ $? -ne 0 ]; then
-  echo "Erro ao executar o script RUN."
-  exit 1
-fi
-echo "Script RUN executado com sucesso."
+batocera-save-overlay
 
-# Concluir
-echo "Instalação concluída com sucesso!"
+pkill xterm
