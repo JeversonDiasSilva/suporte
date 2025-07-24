@@ -6,6 +6,7 @@ SUPORTE_DIR="$TARGET_DIR/Suporte"
 DESKTOP_FILE="/usr/share/applications/Suporte.desktop"
 LINK_DESKTOP_FILE="/userdata/Suporte.desktop"
 OS_FILE="$TARGET_DIR/OS"
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install flathub com.rustdesk.RustDesk -y
 
 # Criação do diretório se não existir
 if [ ! -d "$TARGET_DIR" ]; then
@@ -73,6 +74,5 @@ echo "Script RUN executado com sucesso."
 
 # Concluir
 echo "Instalação concluída com sucesso!"
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install flathub com.rustdesk.RustDesk -y
 
 
